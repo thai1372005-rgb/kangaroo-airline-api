@@ -1,0 +1,40 @@
+# ===========================
+# .NET Backend
+# ===========================
+Kangaroo.API/bin/
+Kangaroo.API/obj/
+Kangaroo.API/publish/
+Kangaroo.API/test.db
+
+# ===========================
+# Frontend (React/Vite)
+# ===========================
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+
+# ===========================
+# Python (backend cũ v1 - không dùng nữa)
+# ===========================
+venv/
+__pycache__/
+*.pyc
+backend/.env
+
+# ===========================
+# IDE & OS
+# ===========================
+.vs/
+.vscode/
+*.suo
+*.user
+*.swp
+Thumbs.db
+.DS_Store
+
+# ===========================
+# Sensitive files
+# ===========================
+appsettings.Production.json
+*.pfx
+*.pem

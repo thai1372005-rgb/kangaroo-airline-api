@@ -1,0 +1,30 @@
+# ============================================
+# Kangaroo Airline v2 - Backend .NET 8 API
+# Dùng cho AWS App Runner (deploy từ GitHub)
+# ============================================
+
+# Stage 1: Build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy file project và restore dependencies trước (tận dụng Docker cache)
+COPY Kangaroo.API/Kangaroo.API.csproj Kangaroo.API/
+RUN dotnet restore "Kangaroo.API/Kangaroo.API.csproj"
+
+# Copy toàn bộ code và build
+COPY . .
+WORKDIR /src/Kangaroo.API
+RUN dotnet publish "Kangaroo.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Stage 2: Runtime (siêu nhẹ, chỉ chứa .NET Runtime)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app/publish .
+
+# Cấu hình môi trường Production
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_URLS=http://0.0.0.0:8080
+
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "Kangaroo.API.dll"]

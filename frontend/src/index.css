@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@variant dark (&:is(.dark *));
+
+:root {
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --brand-cream: rgb(248 246 241);
+  --brand-sand: rgb(235 228 216);
+  --brand-brown: rgb(88 65 50);
+  --brand-green: rgb(28 110 72);
+  --brand-green-deep: rgb(17 94 58);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: rgb(31 41 55);
+  background:
+    radial-gradient(circle at top, rgba(28, 110, 72, 0.14), transparent 28%),
+    radial-gradient(circle at 82% 18%, rgba(88, 65, 50, 0.12), transparent 24%),
+    linear-gradient(180deg, var(--brand-cream) 0%, #f3ede3 48%, #ffffff 100%);
+}
+
+.dark body {
+  color: rgb(241 245 249);
+  background:
+    radial-gradient(circle at top, rgba(28, 110, 72, 0.18), transparent 28%),
+    radial-gradient(circle at 82% 18%, rgba(88, 65, 50, 0.16), transparent 24%),
+    linear-gradient(180deg, rgb(2 6 23) 0%, rgb(15 23 42) 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(28, 110, 72, 0.18);
+  color: rgb(17 24 39);
+}
+
+.dark ::selection {
+  background: rgba(88, 65, 50, 0.28);
+  color: rgb(248 250 252);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(120, 113, 108, 0.14);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(28, 110, 72, 0.7), rgba(88, 65, 50, 0.72));
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(28, 110, 72, 0.9), rgba(88, 65, 50, 0.92));
+  background-clip: content-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
