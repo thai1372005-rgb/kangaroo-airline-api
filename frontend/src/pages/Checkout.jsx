@@ -14,7 +14,7 @@ const Checkout = () => {
   // 1. KIỂM TRA ĐĂNG NHẬP & LẤY DỮ LIỆU VÉ
   // ==========================================
   useEffect(() => {
-    const hasToken = localStorage.getItem('kangaroo_token')
+    const hasToken = localStorage.getItem('kangaroo_access_token') || localStorage.getItem('kangaroo_token')
     if (!hasToken) {
       navigate('/login')
       return

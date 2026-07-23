@@ -60,7 +60,7 @@ const SeatMap = ({ flight, onConfirm }) => {
     const draftBooking = { flight, selectedSeats, totalPrice }
     localStorage.setItem('draft_booking', JSON.stringify(draftBooking))
     
-    const hasToken = localStorage.getItem('kangaroo_token')
+    const hasToken = localStorage.getItem('kangaroo_access_token') || localStorage.getItem('kangaroo_token')
     
     if (hasToken) {
       navigate('/checkout')

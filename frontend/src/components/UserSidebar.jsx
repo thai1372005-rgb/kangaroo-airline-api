@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, User, Settings, Ticket, MapPin, LogOut, Globe, Palette } from 'lucide-react'
+import { X, User, Settings, Ticket, MapPin, LogOut, Globe, Palette, Shield } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useI18n } from '../context/I18nContext'
 import { useNavigate } from 'react-router-dom'
@@ -65,7 +65,7 @@ const UserSidebar = ({ isOpen, onClose }) => {
                   <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white font-black text-xl">
-                        {user.name.charAt(0).toUpperCase()}
+                        {((user.name && user.name.charAt(0)) || (user.email && user.email.charAt(0)) || 'U').toString().toUpperCase()}
                       </div>
                       <div>
                         <p className="font-black text-slate-900 dark:text-white">{user.name}</p>
@@ -76,6 +76,16 @@ const UserSidebar = ({ isOpen, onClose }) => {
 
                   {/* === MENU ITEMS === */}
                   <div className="space-y-2">
+                    {user?.role === 'admin' && (
+                      <button
+                        onClick={() => handleNavigate('/admin')}
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/40 transition-colors text-left font-bold text-red-600 dark:text-red-400"
+                      >
+                        <Shield className="w-5 h-5" />
+                        Admin Panel
+                      </button>
+                    )}
+
                     <button
                       onClick={() => handleNavigate('/manage')}
                       className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-left font-bold text-slate-700 dark:text-slate-300"

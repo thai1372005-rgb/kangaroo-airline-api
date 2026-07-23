@@ -38,3 +38,9 @@ Thumbs.db
 appsettings.Production.json
 *.pfx
 *.pem
+
+# ===========================
+# Tools & Scripts (debug only)
+# ===========================
+tools/
+scripts/

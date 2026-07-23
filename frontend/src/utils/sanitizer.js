@@ -172,6 +172,7 @@ export const setAuthToken = (token) => {
     const parts = token.split('.')
     if (parts.length !== 3) return false
     
+    localStorage.setItem('kangaroo_access_token', token)
     localStorage.setItem('kangaroo_token', token)
     return true
   } catch (err) {
@@ -182,7 +183,7 @@ export const setAuthToken = (token) => {
 
 export const getAuthToken = () => {
   try {
-    return localStorage.getItem('kangaroo_token') || null
+    return localStorage.getItem('kangaroo_access_token') || localStorage.getItem('kangaroo_token') || null
   } catch (err) {
     console.error('Token retrieval error:', err)
     return null
@@ -191,6 +192,7 @@ export const getAuthToken = () => {
 
 export const clearAuthToken = () => {
   try {
+    localStorage.removeItem('kangaroo_access_token')
     localStorage.removeItem('kangaroo_token')
     localStorage.removeItem('draft_booking')
     localStorage.removeItem('my_tickets')

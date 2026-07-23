@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,13 +43,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
             ? cs
             : $"Data Source={cs}";
 
-        // If the path looks like the container path (/app/test.db), rewrite for local dev on Windows.
-        // This prevents: SQLite Error 14: unable to open database file.
-        if (sqliteConnString.IndexOf("Data Source=/app/", StringComparison.OrdinalIgnoreCase) >= 0)
-        {
-            sqliteConnString = "Data Source=./test.db";
-        }
-
         options.UseSqlite(sqliteConnString);
     }
     else
@@ -78,7 +72,8 @@ builder.Services.AddAuthentication(options => {
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(key),
-        NameClaimType = JwtRegisteredClaimNames.Sub
+        NameClaimType = JwtRegisteredClaimNames.Sub,
+        RoleClaimType = ClaimTypes.Role
     };
 });
 
@@ -302,8 +297,17 @@ using (var scope = app.Services.CreateScope())
             Role = "admin",
             CreatedAt = DateTime.UtcNow
         });
-        db.SaveChanges();
     }
+    else
+    {
+        // Preserve existing admin password in non-dev scenarios.
+        // Ensure role is set to admin if missing.
+        if (existingAdmin.Role != "admin")
+        {
+            existingAdmin.Role = "admin";
+        }
+    }
+    db.SaveChanges();
 }
 
 app.MapControllers();

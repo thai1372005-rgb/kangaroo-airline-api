@@ -79,7 +79,7 @@ namespace Kangaroo.API.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] UserCreateDto dto)
+        public IActionResult Login([FromBody] UserLoginDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -100,7 +100,15 @@ namespace Kangaroo.API.Controllers
 
                 var token = _auth.CreateToken(user.Username, user.Role);
                 _logger.LogInformation($"User logged in: {user.Email}");
-                return Ok(new TokenDto { Access_Token = token, Token_Type = "bearer" });
+                return Ok(new
+                {
+                    access_token = token,
+                    token_type = "bearer",
+                    id = user.Id,
+                    role = user.Role,
+                    email = user.Email,
+                    username = user.Username
+                });
             }
             catch (Exception ex)
             {

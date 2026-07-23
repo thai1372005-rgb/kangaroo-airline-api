@@ -25,7 +25,7 @@ const MyTickets = () => {
   // 2. KIỂM TRA ĐĂNG NHẬP & LẤY DỮ LIỆU
   // ==========================================
   useEffect(() => {
-    const hasToken = localStorage.getItem('kangaroo_token')
+    const hasToken = localStorage.getItem('kangaroo_access_token') || localStorage.getItem('kangaroo_token')
     if (!hasToken) {
       navigate('/login')
       return

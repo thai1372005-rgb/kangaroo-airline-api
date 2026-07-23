@@ -23,6 +23,20 @@ namespace Kangaroo.API.DTOs
         public string Password { get; set; }
     }
 
+    public class UserLoginDto
+    {
+        [JsonPropertyName("email")]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        [StringLength(100, ErrorMessage = "Email must not exceed 100 characters")]
+        public string Email { get; set; }
+
+        [JsonPropertyName("password")]
+        [Required(ErrorMessage = "Password is required")]
+        [StringLength(255, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters long")]
+        public string Password { get; set; }
+    }
+
     public class UserOutDto
     {
         [JsonPropertyName("id")]

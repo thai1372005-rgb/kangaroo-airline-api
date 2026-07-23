@@ -70,6 +70,7 @@ namespace Kangaroo.API.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim("role", role ?? "user"),
+                new Claim(ClaimTypes.Role, role ?? "user"),
             };
 
             var creds = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);

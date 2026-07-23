@@ -16,7 +16,7 @@ import API_BASE from '../config/api';
 import { useAuth } from '../context/AuthContext';
 
 const AdminPanel = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
   
   // State for data
@@ -60,7 +60,7 @@ const AdminPanel = () => {
   };
 
   useEffect(() => {
-    if (user?.role !== 'admin') return;
+    if (user?.role?.toLowerCase() !== 'admin') return;
     
     if (activeTab === 'dashboard') {
       fetchStats();
@@ -223,7 +223,19 @@ const AdminPanel = () => {
     setFlightForm(prev => ({ ...prev, [name]: value }));
   };
 
-  if (user?.role !== 'admin') {
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-28 pb-12 px-4 bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
+        <div className="bg-white dark:bg-slate-800 p-8 rounded-[2rem] shadow-xl text-center max-w-md w-full">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-emerald-500 border-t-transparent mx-auto mb-4" />
+          <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Đang tải...</h2>
+          <p className="text-slate-500 dark:text-slate-400">Vui lòng đợi trong khi xác thực quyền truy cập.</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (user?.role?.toLowerCase() !== 'admin') {
     return (
       <div className="min-h-screen pt-28 pb-12 px-4 bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
         <div className="bg-white dark:bg-slate-800 p-8 rounded-[2rem] shadow-xl text-center max-w-md w-full">

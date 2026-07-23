@@ -1,8 +1,12 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kangaroo.API", "Kangaroo.API\Kangaroo.API.csproj", "{9675E383-8C19-E5AC-6893-97167E275E81}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{F7179FD5-6D2A-4498-A9E7-F3EDB7F7A58D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryDb", "tools\QueryDb\QueryDb.csproj", "{A87D772C-6A65-49C6-A93F-61A424EF0F4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,11 +18,18 @@ Global
 		{9675E383-8C19-E5AC-6893-97167E275E81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9675E383-8C19-E5AC-6893-97167E275E81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9675E383-8C19-E5AC-6893-97167E275E81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A87D772C-6A65-49C6-A93F-61A424EF0F4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A87D772C-6A65-49C6-A93F-61A424EF0F4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A87D772C-6A65-49C6-A93F-61A424EF0F4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A87D772C-6A65-49C6-A93F-61A424EF0F4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD9E8059-847C-4A8E-B481-ED8811D35FFA}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A87D772C-6A65-49C6-A93F-61A424EF0F4F} = {F7179FD5-6D2A-4498-A9E7-F3EDB7F7A58D}
 	EndGlobalSection
 EndGlobal

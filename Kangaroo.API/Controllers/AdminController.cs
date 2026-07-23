@@ -11,7 +11,7 @@ namespace Kangaroo.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AdminController : ControllerBase
     {
         private readonly AppDbContext _db;
@@ -21,17 +21,11 @@ namespace Kangaroo.API.Controllers
             _db = db;
         }
 
-        private bool IsAdmin()
-        {
-            var role = User?.Claims?.FirstOrDefault(c => c.Type == "role")?.Value;
-            return string.Equals(role, "admin", StringComparison.OrdinalIgnoreCase);
-        }
+        // Authorization is handled by [Authorize(Roles = "admin")] attribute
 
         [HttpGet("users")]
         public IActionResult GetUsers()
         {
-            if (!IsAdmin()) return Forbid();
-
             var users = _db.Users
                 .OrderByDescending(u => u.CreatedAt)
                 .Select(u => new UserOutDto
@@ -62,8 +56,6 @@ namespace Kangaroo.API.Controllers
         [HttpPut("users/{id:int}")]
         public IActionResult UpdateUser([FromRoute] int id, [FromBody] UserUpdateAdminDto dto)
         {
-            if (!IsAdmin()) return Forbid();
-
             var user = _db.Users.SingleOrDefault(u => u.Id == id);
             if (user == null) return NotFound(new { detail = "User không tồn tại" });
 
@@ -128,8 +120,6 @@ namespace Kangaroo.API.Controllers
         [HttpPut("flights/{id:int}")]
         public IActionResult UpdateFlight([FromRoute] int id, [FromBody] FlightUpdateAdminDto dto)
         {
-            if (!IsAdmin()) return Forbid();
-
             var flight = _db.Flights
                 .Include(f => f.DepartureAirport)
                 .Include(f => f.ArrivalAirport)
@@ -184,8 +174,6 @@ namespace Kangaroo.API.Controllers
         [HttpDelete("flights/{id:int}")]
         public IActionResult DeleteFlight([FromRoute] int id)
         {
-            if (!IsAdmin()) return Forbid();
-
             var flight = _db.Flights.SingleOrDefault(f => f.Id == id);
             if (flight == null) return NotFound(new { detail = "Flight không tồn tại" });
 
@@ -201,8 +189,6 @@ namespace Kangaroo.API.Controllers
         [HttpDelete("users/{id:int}")]
         public IActionResult DeleteUser([FromRoute] int id)
         {
-            if (!IsAdmin()) return Forbid();
-
             // Prevent self-delete
             var currentUserId = User?.Claims?.FirstOrDefault(c => c.Type == System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
             if (currentUserId == id.ToString())
@@ -219,8 +205,6 @@ namespace Kangaroo.API.Controllers
         [HttpGet("stats")]
         public IActionResult GetStats()
         {
-            if (!IsAdmin()) return Forbid();
-
             return Ok(new
             {
                 totalUsers = _db.Users.Count(),

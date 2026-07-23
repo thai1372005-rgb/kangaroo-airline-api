@@ -9,6 +9,10 @@ services:
     restart: unless-stopped
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      # =============================================
+      # DATABASE: Uncomment dòng dưới khi deploy AWS
+      # =============================================
+      # - ConnectionStrings__DefaultConnection=Server=YOUR_RDS_ENDPOINT;Port=3306;Database=kangaroo_db;User=admin;Password=YOUR_PASSWORD;
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health" ]
       interval: 30s
@@ -23,6 +27,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
       args:
+        # LOCAL: dùng localhost | AWS: đổi thành http://EC2_IP:8080
         VITE_API_URL: "http://localhost:8080"
     container_name: kangaroo-frontend
     ports:

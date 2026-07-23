@@ -116,8 +116,11 @@ const Login = () => {
         success = await login(formData.email.trim(), formData.password)
         if (success) {
           setSuccessMsg(t('loginSuccess'))
+          // Check if logged-in user is admin by reading from localStorage
+          const savedUser = JSON.parse(localStorage.getItem('kangaroo_current_user') || '{}')
+          const targetPath = savedUser.role === 'admin' ? '/admin' : '/'
           setTimeout(() => {
-            navigate('/')
+            navigate(targetPath)
           }, 1000)
         }
       } else {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronDown, Globe, Menu, Moon, Plane, Sun, Ticket, X, MapPin } from 'lucide-react'
+import { ChevronDown, Globe, Menu, Moon, Plane, Sun, Ticket, X, MapPin, Shield } from 'lucide-react'
 import { useAppContext } from '../context/AppContext'
 import { useAuth } from '../context/AuthContext'
 import { useI18n } from '../context/I18nContext'
@@ -223,6 +223,12 @@ const Navbar = () => {
                   </Link>
                 )
               })}
+              {user?.role === 'admin' && (
+                <Link to="/admin" className={`group inline-flex items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-[0.95rem] font-bold transition-all duration-300 xl:px-6 xl:py-3 ${isActive('/admin') ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-md' : 'text-red-600 bg-red-50 hover:bg-red-100 dark:text-red-400 dark:bg-red-900/20 dark:hover:bg-red-900/40'}`}>
+                  <Shield className="h-4 w-4" />
+                  <span>Admin Panel</span>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -252,6 +258,16 @@ const Navbar = () => {
                         </Link>
                       )
                     })}
+                    {user?.role === 'admin' && (
+                      <Link
+                        to="/admin"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition-all ${isActive('/admin') ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-md' : 'text-red-600 bg-red-50 hover:bg-red-100 dark:text-red-400 dark:bg-red-900/20 dark:hover:bg-red-900/40'}`}
+                      >
+                        <Shield className="h-4 w-4" />
+                        Admin Panel
+                      </Link>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 rounded-3xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-900/70">

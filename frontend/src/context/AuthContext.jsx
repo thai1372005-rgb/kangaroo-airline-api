@@ -166,7 +166,11 @@ export const AuthProvider = ({ children }) => {
     const savedUser = localStorage.getItem('kangaroo_current_user')
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser))
+        const parsed = JSON.parse(savedUser)
+        setUser({
+          ...parsed,
+          role: parsed.role ? parsed.role.toLowerCase() : 'user'
+        })
       } catch (err) {
         console.error('Lỗi khôi phục user:', err)
       }
@@ -229,16 +233,19 @@ export const AuthProvider = ({ children }) => {
       const accessToken = res?.data?.access_token || res?.data?.Access_Token
       if (accessToken) {
         localStorage.setItem('kangaroo_access_token', accessToken)
+        localStorage.setItem('kangaroo_token', accessToken)
+        const normalizedRole = (res.data.role || 'user').toString().toLowerCase()
         localStorage.setItem('kangaroo_current_user', JSON.stringify({
           id: res.data.id,
-          email: email,
-          role: res.data.role || 'user'
+          name: res.data.username || email,
+          email: res.data.email || email,
+          role: normalizedRole
         }))
         setUser({
           id: res.data.id,
-          name: email,
-          email: email,
-          role: res.data.role || 'user'
+          name: res.data.username || email,
+          email: res.data.email || email,
+          role: normalizedRole
         })
         setError('')
         return true
@@ -280,11 +287,12 @@ export const AuthProvider = ({ children }) => {
 
       // Lưu user info từ response
       if (res.data) {
+        const normalizedRole = (res.data.role || 'user').toString().toLowerCase()
         const userData = {
           id: res.data.id,
           name: res.data.username || name.trim(),
           email: res.data.email,
-          role: res.data.role || 'user'
+          role: normalizedRole
         }
         setUser(userData)
         localStorage.setItem('kangaroo_current_user', JSON.stringify(userData))
@@ -305,6 +313,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null)
     localStorage.removeItem('kangaroo_current_user')
     localStorage.removeItem('kangaroo_token')
+    localStorage.removeItem('kangaroo_access_token')
     setError('')
   }
 
